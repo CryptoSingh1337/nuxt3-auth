@@ -1,14 +1,38 @@
+import vuetify from 'vite-plugin-vuetify'
+
 export default defineNuxtConfig({
-    typescript: {
-        shim: false,
-    },
-    modules: ['@sidebase/nuxt-auth'],
-    css: ["vuetify/lib/styles/main.sass", "@mdi/font/css/materialdesignicons.min.css"],
-    build: {
-        transpile: ["vuetify"],
-    },
-    auth: {
-        origin: 'http://localhost:3000',
-        enableGlobalAppMiddleware: true
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=500, initial-scale=1',
+      title: 'Nuxt Authentication',
+      meta: [
+        { name: 'description', content: 'My amazing site.' }
+      ],
+      link: [
+        { rel: 'icon', href: '/images/logo.svg' }
+      ]
     }
+  },
+  typescript: {
+    shim: false
+  },
+  modules: [
+    '@sidebase/nuxt-auth',
+    '@nuxtjs/axios',
+    // @ts-ignore
+    async (options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', config => config.plugins.push(vuetify()))
+    }
+  ],
+  css: ['vuetify/styles'],
+  vite: {
+    ssr: {
+      noExternal: ['vuetify']
+    }
+  },
+  auth: {
+    origin: 'http://localhost:3000',
+    enableGlobalAppMiddleware: true
+  }
 })
