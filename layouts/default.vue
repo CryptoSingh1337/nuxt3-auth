@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar>
+    <v-app-bar elevation="0" border>
       <v-img
         src="/images/logo.svg"
         max-width="100"

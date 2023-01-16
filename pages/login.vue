@@ -21,12 +21,13 @@
               />
               <v-card-actions class="px-0">
                 <v-btn
-                  class="tile"
-                  elevation="0"
+                  rounded="0"
+                  variant="outlined"
                   color="primary"
+                  size="large"
                   block
-                  x-large
                   :disabled="!valid"
+                  :loading="loader"
                   @click="handleLogin"
                 >
                   Login
@@ -43,12 +44,19 @@
 const uname = ref('')
 const pass = ref('')
 const valid = ref(true)
+const loader = ref(false)
 const { signIn } = useSession()
 
 definePageMeta({ auth: false })
 
 async function handleLogin () {
-  console.log(uname.value, pass.value)
-  await signIn('credentials', { username: uname.value, password: pass.value, callbackUrl: '/' })
+  loader.value = true
+  setTimeout(() => { loader.value = false }, 3000)
+  const { error } = await signIn('credentials', { username: uname.value, password: pass.value, redirect: false })
+  if (error) {
+    alert('You have made a terrible mistake while entering your credentials')
+  } else {
+    return navigateTo('/')
+  }
 }
 </script>

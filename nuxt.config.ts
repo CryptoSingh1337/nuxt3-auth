@@ -19,7 +19,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@sidebase/nuxt-auth',
-    '@nuxtjs/axios',
     // @ts-ignore
     async (options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', config => config.plugins.push(vuetify()))
@@ -32,7 +31,7 @@ export default defineNuxtConfig({
     }
   },
   auth: {
-    origin: 'http://localhost:3000',
+    origin: process.env.ORIGIN,
     enableGlobalAppMiddleware: true
   }
 })
